@@ -15,12 +15,14 @@
 package executor
 
 import (
+	"bytes"
 	"fmt"
+	"sort"
+	"strings"
+
 	"github.com/pingcap/parser/ast"
 	"github.com/pingcap/parser/mysql"
 	"github.com/pingcap/parser/types"
-	"sort"
-	"strings"
 )
 
 type TableDef struct {
@@ -70,6 +72,7 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 	unsigned := false
 	nullable := true
 	charset := ""
+	comment := ""
 
 	if mysql.HasUnsignedFlag(column.Tp.Flag) {
 		unsigned = true
@@ -90,6 +93,12 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 		} else if option.Tp == ast.ColumnOptionNull {
 			nullable = true
 			explicitNull = true
+		} else if option.Tp == ast.ColumnOptionComment {
+			buf := new(bytes.Buffer)
+			option.Expr.Format(buf)
+			s := buf.String()
+			comment = strings.Trim(s, "\"")
+			comment = strings.Trim(comment, "'")
 		}
 	}
 	if isExplicitPk {
@@ -109,6 +118,7 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 		Charset:   charset,
 		Unsigned:  unsigned,
 		Nullable:  nullable,
+		Comment:   comment,
 	}
 
 	return &columnDef

@@ -23,6 +23,7 @@ type ColumnDef struct {
 	Charset   string    `json:"charset"`
 	Unsigned  bool      `json:"unsigned"`
 	Nullable  bool      `json:"nullable"`
+	Comment   string    `json:"comment"`
 }
 
 func (o *ColumnDef) Clone() *ColumnDef {
