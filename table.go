@@ -73,6 +73,10 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 	nullable := true
 	charset := ""
 	comment := ""
+	onUpdate := false
+	defaultValue := ""
+	autoIncrement := false
+	primaryKey := false
 
 	if mysql.HasUnsignedFlag(column.Tp.Flag) {
 		unsigned = true
@@ -88,17 +92,22 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 
 	explicitNull := false
 	for _, option := range column.Options {
-		if option.Tp == ast.ColumnOptionNotNull {
+		switch option.Tp {
+		case ast.ColumnOptionNotNull:
 			nullable = false
-		} else if option.Tp == ast.ColumnOptionNull {
+		case ast.ColumnOptionNull:
 			nullable = true
 			explicitNull = true
-		} else if option.Tp == ast.ColumnOptionComment {
-			buf := new(bytes.Buffer)
-			option.Expr.Format(buf)
-			s := buf.String()
-			comment = strings.Trim(s, "\"")
-			comment = strings.Trim(comment, "'")
+		case ast.ColumnOptionComment:
+			comment = formatOptionValue(option)
+		case ast.ColumnOptionPrimaryKey:
+			primaryKey = true
+		case ast.ColumnOptionDefaultValue:
+			defaultValue = formatOptionValue(option)
+		case ast.ColumnOptionAutoIncrement:
+			autoIncrement = true
+		case ast.ColumnOptionOnUpdate:
+			onUpdate = true
 		}
 	}
 	if isExplicitPk {
@@ -111,14 +120,18 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 	}
 
 	columnDef := ColumnDef{
-		Name:      columnName,
-		Type:      columnType,
-		InnerType: columnInnerType,
-		Key:       IndexType_NONE,
-		Charset:   charset,
-		Unsigned:  unsigned,
-		Nullable:  nullable,
-		Comment:   comment,
+		Name:          columnName,
+		Type:          columnType,
+		InnerType:     columnInnerType,
+		Key:           IndexType_NONE,
+		Charset:       charset,
+		Unsigned:      unsigned,
+		Nullable:      nullable,
+		Comment:       comment,
+		PrimaryKey:    primaryKey,
+		OnUpdate:      onUpdate,
+		AutoIncrement: autoIncrement,
+		DefaultValue:  defaultValue,
 	}
 
 	return &columnDef
@@ -587,4 +600,13 @@ func isStringType(ft *types.FieldType) bool {
 		return false
 	}
 	return true
+}
+
+func formatOptionValue(option *ast.ColumnOption) (out string) {
+	buf := new(bytes.Buffer)
+	option.Expr.Format(buf)
+	out = buf.String()
+	out = strings.Trim(out, "\"")
+	out = strings.Trim(out, "'")
+	return
 }
