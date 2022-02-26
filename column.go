@@ -16,18 +16,18 @@ package executor
 
 type ColumnDef struct {
 	// original case
-	Name          string      `json:"name"`
-	Type          string      `json:"type"`
-	InnerType     byte        `json:"inner_type"`
-	Key           IndexType   `json:"key"`
-	Charset       string      `json:"charset"`
-	Unsigned      bool        `json:"unsigned"`
-	Nullable      bool        `json:"nullable"`
-	Comment       string      `json:"comment"`
-	OnUpdate      bool        `json:"onUpdate"`
-	DefaultValue  interface{} `json:"defaultValue"`
-	AutoIncrement bool        `json:"autoIncrement"`
-	PrimaryKey    bool        `json:"primaryKey"`
+	Name          string    `json:"name"`
+	Type          string    `json:"type"`
+	InnerType     byte      `json:"inner_type"`
+	Key           IndexType `json:"key"`
+	Charset       string    `json:"charset"`
+	Unsigned      bool      `json:"unsigned"`
+	Nullable      bool      `json:"nullable"`
+	Comment       string    `json:"comment"`
+	OnUpdate      bool      `json:"onUpdate"`
+	DefaultValue  string    `json:"defaultValue"`
+	AutoIncrement bool      `json:"autoIncrement"`
+	PrimaryKey    bool      `json:"primaryKey"`
 }
 
 func (o *ColumnDef) Clone() *ColumnDef {
