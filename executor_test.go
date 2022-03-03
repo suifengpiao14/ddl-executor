@@ -15,8 +15,9 @@
 package executor
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func TestIsDdl(t *testing.T) {
@@ -1010,6 +1011,7 @@ func TestOriginalCaseTableNames(t *testing.T) {
 	create database tesT;
 	create table tesT.tesT1(
 		id int unsigned auto_increment,
+		position enum('body','head','path','query','cookie','') DEFAULT 'body' COMMENT '参数所在的位置',
 		primary key (id)
 	);`)
 	require.Nil(t, err)
