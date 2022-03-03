@@ -28,6 +28,7 @@ type ColumnDef struct {
 	DefaultValue  string    `json:"defaultValue"`
 	AutoIncrement bool      `json:"autoIncrement"`
 	PrimaryKey    bool      `json:"primaryKey"`
+	Elems         []string  `json:"elem"`
 }
 
 func (o *ColumnDef) Clone() *ColumnDef {

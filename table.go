@@ -77,6 +77,7 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 	defaultValue := ""
 	autoIncrement := false
 	primaryKey := false
+	elems := make([]string, 0)
 
 	if mysql.HasUnsignedFlag(column.Tp.Flag) {
 		unsigned = true
@@ -92,6 +93,8 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 
 	explicitNull := false
 	for _, option := range column.Options {
+		enum := int(mysql.TypeEnum)
+		set := int(mysql.TypeSet)
 		switch option.Tp {
 		case ast.ColumnOptionNotNull:
 			nullable = false
@@ -108,6 +111,8 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 			autoIncrement = true
 		case ast.ColumnOptionOnUpdate:
 			onUpdate = true
+		case ast.ColumnOptionType(enum), ast.ColumnOptionType(set):
+			elems = column.Tp.Elems
 		}
 	}
 	if isExplicitPk {
@@ -132,6 +137,7 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 		OnUpdate:      onUpdate,
 		AutoIncrement: autoIncrement,
 		DefaultValue:  defaultValue,
+		Elems:         elems,
 	}
 
 	return &columnDef
