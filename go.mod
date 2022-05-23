@@ -1,6 +1,6 @@
 module github.com/bytewatch/ddl-executor
 
-go 1.18
+go 1.17
 
 require (
 	github.com/go-sql-driver/mysql v0.0.0-20170715192408-3955978caca4
