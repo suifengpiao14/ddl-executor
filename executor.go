@@ -16,12 +16,13 @@ package executor
 
 import (
 	"encoding/json"
+	"strings"
+	"sync"
+
 	"github.com/pingcap/parser"
 	"github.com/pingcap/parser/ast"
 	"github.com/pingcap/parser/model"
 	_ "github.com/pingcap/tidb/types/parser_driver"
-	"strings"
-	"sync"
 )
 
 const (
@@ -342,9 +343,13 @@ func (o *Executor) enterCreateTableStmt(stmt *ast.CreateTableStmt) error {
 	}
 
 	tableCharset := databaseDef.Charset
+	comment := ""
 	for _, tableOption := range stmt.Options {
-		if tableOption.Tp == ast.TableOptionCharset {
+		switch tableOption.Tp {
+		case ast.TableOptionCharset:
 			tableCharset = tableOption.StrValue
+		case ast.TableOptionComment:
+			comment = tableOption.StrValue
 		}
 	}
 
@@ -352,6 +357,7 @@ func (o *Executor) enterCreateTableStmt(stmt *ast.CreateTableStmt) error {
 	tableDef := TableDef{
 		Name:    tableName,
 		Charset: tableCharset,
+		Comment: comment,
 	}
 
 	for _, column := range stmt.Cols {

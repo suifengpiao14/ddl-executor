@@ -31,6 +31,7 @@ type TableDef struct {
 	Columns  []*ColumnDef `json:"columns"`
 	Indices  []*IndexDef  `json:"indices"`
 	Charset  string       `json:"charset"`
+	Comment  string       `json:"comment"`
 }
 
 func (o *TableDef) Clone() *TableDef {
