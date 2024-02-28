@@ -16,7 +16,7 @@ package executor
 
 type DatabaseDef struct {
 	Name    string               `json:"name"`
-	Tables  map[string]*TableDef `json:tables`
+	Tables  map[string]*TableDef `json:"tables"`
 	Charset string               `json:"charset"`
 }
 

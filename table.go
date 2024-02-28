@@ -75,6 +75,7 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 	charset := ""
 	comment := ""
 	onUpdate := false
+	uniqKey := false
 	defaultValue := ""
 	autoIncrement := false
 	primaryKey := false
@@ -110,6 +111,8 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 			autoIncrement = true
 		case ast.ColumnOptionOnUpdate:
 			onUpdate = true
+		case ast.ColumnOptionUniqKey:
+			uniqKey = true
 		}
 	}
 
@@ -137,6 +140,7 @@ func (o *TableDef) newColumnDef(column *ast.ColumnDef, isExplicitPk bool) *Colum
 		Comment:       comment,
 		PrimaryKey:    primaryKey,
 		OnUpdate:      onUpdate,
+		UniqKey:       uniqKey,
 		AutoIncrement: autoIncrement,
 		DefaultValue:  defaultValue,
 		Elems:         elems,

@@ -25,6 +25,7 @@ type ColumnDef struct {
 	Nullable      bool      `json:"nullable"`
 	Comment       string    `json:"comment"`
 	OnUpdate      bool      `json:"onUpdate"`
+	UniqKey       bool      `json:"uniqKey"`
 	DefaultValue  string    `json:"defaultValue"`
 	AutoIncrement bool      `json:"autoIncrement"`
 	PrimaryKey    bool      `json:"primaryKey"`
