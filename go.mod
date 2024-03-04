@@ -3,7 +3,6 @@ module github.com/suifengpiao14/ddl-executor
 go 1.17
 
 require (
-	github.com/bytewatch/ddl-executor v0.0.0-20191006051259-3983fa694bf8
 	github.com/go-sql-driver/mysql v0.0.0-20170715192408-3955978caca4
 	github.com/pingcap/parser v0.0.0-20190123063514-f8c3dff115d5
 	github.com/pingcap/tidb v0.0.0-20190108123336-c68ee7318319

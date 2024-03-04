@@ -17,8 +17,9 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/bytewatch/ddl-executor"
+
 	_ "github.com/go-sql-driver/mysql"
+	executor "github.com/suifengpiao14/ddl-executor"
 )
 
 type ColumnDef struct {
