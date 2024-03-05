@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/go-sql-driver/mysql v0.0.0-20170715192408-3955978caca4
-	github.com/pingcap/parser v0.0.0-20190912032624-978b8272c04e
-	github.com/pingcap/tidb v0.0.0-20190912055946-5c48d93368d4
+	github.com/pingcap/parser v0.0.0-20190910041007-2a177b291004
+	github.com/pingcap/tidb v0.0.0-20190929123532-694e086e7914
 	github.com/stretchr/testify v1.3.0
 )
 
@@ -16,7 +16,6 @@ require (
 	github.com/go-ole/go-ole v1.2.1 // indirect
 	github.com/golang/protobuf v1.3.2 // indirect
 	github.com/konsorten/go-windows-terminal-sequences v1.0.1 // indirect
-	github.com/opentracing/opentracing-go v1.0.2 // indirect
 	github.com/pingcap/errors v0.11.4 // indirect
 	github.com/pingcap/log v0.0.0-20190715063458-479153f07ebd // indirect
 	github.com/pingcap/tipb v0.0.0-20190806070524-16909e03435e // indirect

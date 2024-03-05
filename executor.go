@@ -408,7 +408,7 @@ func (o *Executor) enterCreateIndexStmt(stmt *ast.CreateIndexStmt) error {
 	}
 
 	var key IndexType
-	if stmt.KeyType == ast.IndexKeyTypeUnique {
+	if stmt.Unique {
 		key = IndexType_UNI
 	} else {
 		key = IndexType_MUL
