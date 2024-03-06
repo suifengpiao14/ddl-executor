@@ -4,8 +4,8 @@ go 1.17
 
 require (
 	github.com/go-sql-driver/mysql v0.0.0-20170715192408-3955978caca4
-	github.com/pingcap/parser v0.0.0-20190910041007-2a177b291004
-	github.com/pingcap/tidb v0.0.0-20190929123532-694e086e7914
+	github.com/pingcap/parser v0.0.0-20191018040038-555b97093a2a
+	github.com/pingcap/tidb v0.0.0-20191023085059-c9000abdc216
 	github.com/stretchr/testify v1.3.0
 )
 
@@ -27,7 +27,6 @@ require (
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.9.1 // indirect
 	golang.org/x/crypto v0.0.0-20190911031432-227b76d455e7 // indirect
-	golang.org/x/net v0.0.0-20190909003024-a7b16738d86b // indirect
 	golang.org/x/sys v0.0.0-20190910064555-bbd175535a8b // indirect
 	golang.org/x/text v0.3.2 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
