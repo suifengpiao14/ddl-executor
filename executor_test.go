@@ -1079,3 +1079,59 @@ func TestDropIndex(t *testing.T) {
 	require.Equal(t, expectedDef, tableDef)
 
 }
+
+func TestParseDDL(t *testing.T) {
+	t.Run("no explain line", func(t *testing.T) {
+		sql := `
+		create database test;use test;
+		CREATE TABLE t_xyxz_uniform_config (
+		  Fid bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+		  Fapp varchar(100) NOT NULL DEFAULT '' COMMENT '程序',
+		  Fkey varchar(100) NOT NULL COMMENT '键',
+		  Fvalue varchar(10000) NOT NULL DEFAULT '' COMMENT '值',
+		  Fstatus char(1) NOT NULL DEFAULT '1' COMMENT '状态：0 废弃;1 使用',
+		  Fauto_create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '自动创建时间',
+		  Fauto_update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '自动更新时间',
+		  Fadmin varchar(100) NOT NULL DEFAULT '' COMMENT '管理员',
+		  Fremark varchar(1000) NOT NULL DEFAULT '' COMMENT '备注',
+		  PRIMARY KEY (Fid),
+		  UNIQUE KEY Fapp (Fapp,Fkey)
+		) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='闲鱼小站杂七杂八配置表';`
+		conf := NewDefaultConfig()
+		db := NewExecutor(conf)
+		err := db.Exec(sql)
+		require.NoError(t, err)
+		require.Equal(t, "test", db.GetCurrentDatabase())
+		tables, err := db.GetTables(db.GetCurrentDatabase())
+		require.NoError(t, err)
+		require.Equal(t, 1, len(tables))
+	})
+
+	t.Run("with explain line", func(t *testing.T) {
+		sql := `
+		-- 表注释
+		create database test;use test;
+		CREATE TABLE t_xyxz_uniform_config (
+		  Fid bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
+		  Fapp varchar(100) NOT NULL DEFAULT '' COMMENT '程序',
+		  Fkey varchar(100) NOT NULL COMMENT '键',
+		  Fvalue varchar(10000) NOT NULL DEFAULT '' COMMENT '值',
+		  Fstatus char(1) NOT NULL DEFAULT '1' COMMENT '状态：0 废弃;1 使用',
+		  Fauto_create_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '自动创建时间',
+		  Fauto_update_time datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '自动更新时间',
+		  Fadmin varchar(100) NOT NULL DEFAULT '' COMMENT '管理员',
+		  Fremark varchar(1000) NOT NULL DEFAULT '' COMMENT '备注',
+		  PRIMARY KEY (Fid),
+		  UNIQUE KEY Fapp (Fapp,Fkey)
+		) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='闲鱼小站杂七杂八配置表';`
+		conf := NewDefaultConfig()
+		db := NewExecutor(conf)
+		err := db.Exec(sql)
+		require.NoError(t, err)
+		require.Equal(t, "test", db.GetCurrentDatabase())
+		tables, err := db.GetTables(db.GetCurrentDatabase())
+		require.NoError(t, err)
+		require.Equal(t, 1, len(tables))
+	})
+
+}
